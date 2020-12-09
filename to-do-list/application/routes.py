@@ -15,6 +15,18 @@ def deleted(id):
     db.session.commit()
     return redirect(url_for("home"))
 
+@app.route('/isitcomplete/<int:id>', methods=['GET', 'POST'])
+def isitcomplete(id):
+    change_completion = Tasks.query.filter_by(id=id).first()
+    if change_completion.completion == "No":
+        change_completion.completion = "Yes"
+        db.session.commit()
+        return redirect(url_for("home"))
+    else:
+        change_completion.completion = "No"
+        db.session.commit()
+        return redirect(url_for("home"))
+
 @app.route('/add', methods=['GET', 'POST'])
 def addnew():
     error=""

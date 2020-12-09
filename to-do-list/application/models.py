@@ -13,10 +13,4 @@ class TaskForm(FlaskForm):
     task_name = StringField('Name of Task')
     task_desc = StringField('Description of Task')
     submit = SubmitField('Add Task')
-    delete = SubmitField('Delete')
 
-class NaviButtons(FlaskForm):
-    home = SubmitField('Home')
-    completed = SubmitField('Completed Tasks')
-    add = SubmitField('Add Task')
-    update = SubmitField('Update Description')
