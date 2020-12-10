@@ -51,12 +51,16 @@ class TestViews(TestBase):
     def test_delete_get(self):
         response = self.client.get(url_for('delete', id=1), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-    
+
+## Tests all the features of the task table are viewed on the homepage  
 class TestRead(TestBase):
     def test_read_tasks(self):
         response = self.client.get(url_for("home"))
         self.assertIn(b"Test Code", response.data)
+        self.assertIn(b"I need to test my code", response.data)
+        self.assertIn(b"No", response.data)
 
+## Tests the name and description is added from the form and that the changes can be viewed on the homepage
 class TestAdd(TestBase):
     def test_add_post(self):
         response = self.client.post(
@@ -65,16 +69,21 @@ class TestAdd(TestBase):
             follow_redirects=True
         )
         self.assertIn(b"Smell flowers", response.data)
+        self.assertIn(b"Its Spring time", response.data)
 
+## Tests the description is changed from the form and that the changes can be viewed on the homepage
 class TestUpdate(TestBase):
     def test_update_post(self):
         response = self.client.post(
             url_for('updatedesc'),
-            data = dict(name = 'Test Code', description = "I need to test my code", task_desc = "I still need to test my code"),
+            data = dict(task_name = 'Test Code', description = "I need to test my code", task_desc = "I still need to test my code"),
             follow_redirects=True
         )
+        self.assertIn(b"Test Code", response.data)
+        self.assertNotIn(b"I need to test my code", response.data)
         self.assertIn(b"I still need to test my code", response.data)
 
+## Tests the selected data is deleted from the table and is no longer viewable on the homepage
 class TestDelete(TestBase):
     def test_delete_post(self):
         response = self.client.post(
